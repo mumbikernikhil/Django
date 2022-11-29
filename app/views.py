@@ -134,3 +134,7 @@ def success(request):
         user.paid = True
         user.save()
     return render(request, 'success.html')
+
+
+
+# FOR TEST
