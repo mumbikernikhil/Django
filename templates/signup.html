@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% block title %}
+  Sign up
+{% endblock title %}
+{% block body %}
+{% load socialaccount %}
+
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-md-6">
+
+    <img class="img-thumbnail" src="/static/bg.jpeg">
+
+    </div>
+    <div class="col-md-4 mt-3">
+      <h2 class="text-dark text-center">Sign Up</h2>
+      {% for message in messages %}
+      <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+        <strong></strong> {{message}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        </button>
+      </div>   
+      {% endfor %}
+
+
+
+      <div class="row">
+        <div class="col-md-3 mt-3">
+          <a class="btn btn-outline-dark btn-lg ml-5" href="https://accounts.google.com/o/oauth2/auth/identifier?client_id=465891839031-qh0dk6l8hi5rpof7nlppu98j73ne1qr0.apps.googleusercontent.com&redirect_uri=http%3A%2F%2F127.0.0.1%3A8000%2Faccounts%2Fgoogle%2Flogin%2Fcallback%2F&scope=profile%20email&response_type=code&state=Nzn0m8W3poUP&access_type=online&flowName=GeneralOAuthFlow" role="button" style="text-transform:none">
+            <img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
+            Login with Google
+          </a>
+        </div>
+      </div>
+      <p class="text-center mt-2 mr-4">OR</p>
+      <!-- Minified CSS and JS -->
+      <link   rel="stylesheet" 
+              href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" 
+              integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
+              crossorigin="anonymous">
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" 
+              integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" 
+              crossorigin="anonymous">
+      </script>
+
+
+
+
+<form action="/signup" method="post">
+  {% csrf_token %}
+
+
+<label class="ml-2">User Name</label>
+<div class="form-group ml-2">
+<input type="text" class="form-control" name="username" required>
+</div>
+
+<label class="ml-2">Email</label>
+<div class="form-group ml-2">
+<input type="email" class="form-control" name="email" required>
+</div>
+
+<label class="ml-2">Password</label>
+<div class="form-group ml-2">
+<input type="password" class="form-control" name="pass1" required>
+</div>
+
+<label class="ml-2">Confirm Password</label>
+<div class="form-group ml-2">
+<input type="password" class="form-control" name="pass2" required>
+</div>
+
+<button type="submit" class="btn btn-dark btn-lg btn-block ml-1">Signup</button>
+
+</form>
+    </div>
+  </div>
+</div>
+
+{% endblock body %}

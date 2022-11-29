@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscription</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">Home</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="/blog">Blog<span class="sr-only">(current)</span></a>
+            </li>
+            
+            <li class="nav-item active">
+              <a class="nav-link" href="/contact">Contact</a>
+            </li>
+            {% if not request.user.is_authenticated %}
+            <li class="nav-item dropdown active">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                New User?
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="/login">Login</a>
+                <a class="dropdown-item" href="/signup">Signup</a>
+  
+              {% else %}
+  
+              <li class="nav-item dropdown active">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Welcome {{request.user}}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="/logout">Logout</a>
+  
+              {% endif %}
+                
+              </div>
+            </li>
+          </ul>
+          <form class="form-inline my-2 my-lg-0" action="/search" method="get">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search">
+            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+          </form>
+        </div>
+      </nav>
+
+      <div class="container mt-3">
+        <div class="row">
+          <div class="col-md-6 mt-5">
+      
+          <!-- <img class="img-thumbnail" src="/static/bg.jpeg"> -->
+          <table class="table table-dark mt-5">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">PLAN</th>
+                <th scope="col">PRICE</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Monthly</td>
+                <td>400 ₹</td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>Ouaterly</td>
+                <td>600 ₹</td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>6 Months</td>
+                <td>1000 ₹</td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>Yearly</td>
+                <td>1800 ₹</td>
+              </tr>
+            </tbody>
+          </table>
+      
+          </div>
+          <div class="col-md-4 mt-1">
+            <div class="text-center">
+                <img src="https://marketplace.cs-cart.com/images/thumbnails/700/280/detailed/4/logo_black.png" class="img-fluid img-responsive">
+            </div>
+      <form action="/subscription" method="post">
+        {% csrf_token %}
+      
+      
+      <label class="ml-2">Full Name</label>
+      <div class="form-group ml-2">
+      <input type="text" class="form-control" name="name" required>
+      </div>
+      
+      
+      <div class="form-group ml-2">
+        <select class="form-control mt-2" id="gender" name="amount" required>
+            <option selected>Select Plan</option>
+            <option>400</option>
+            <option>600</option>
+            <option>1000</option>
+            <option>1800</option>
+        </select>
+      </div>
+      
+      
+      <button type="submit" class="btn btn-success btn-lg btn-block ml-1">Pay</button>
+      
+      </form>
+          </div>
+        </div>
+      </div>
+
+
+      {% if payment %}
+<div class="text-center mx-auto">
+<form action="/success" method="POST">
+  <script src="https://checkout.razorpay.com/v1/checkout.js"
+  
+  data-key = "rzp_test_NlSkBVS1erkl63"
+  data-amount = "{{payment.amount}}"
+  data-currency = "INR"
+  data-order_id = "{{payment.id}}"
+  data-buttontext = "Pay with Razorpay"
+  data-name = "Capsule Corp"
+  data-description = "Test transaction"
+  data-image = "https://example.com/your_logo.jpg"
+  data-prefill.name = "Gaurav Kumar"
+  data-prefill.email = "gaurav.kumar@gmail.com"
+  data-prefill.contact = "9999999999"
+  data-theme.color = "#F37254">
+  </script>
+  <input type="hidden" custom="Hidden Element" name="hidden">
+</form>
+</div>
+{% endif %}
+
+
+
+</body>
+</html>
